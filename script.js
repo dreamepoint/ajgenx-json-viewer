@@ -1,16 +1,15 @@
-
 console.log('AjGenX Enhanced Loaded');
 
 const input = document.getElementById('jsonInput');
 const output = document.getElementById('jsonOutput');
 const formatBtn = document.getElementById('formatBtn');
 const downloadBtn = document.getElementById('downloadBtn');
+const copyBtn = document.getElementById('copyBtn'); // ✅ already exists in HTML
 const tabs = document.querySelectorAll('.tab');
 const themeToggle = document.getElementById('themeToggle');
 const languageToggle = document.getElementById('languageToggle');
 const errorOutput = document.getElementById('errorOutput');
 
-// Language Dictionary
 const translations = {
   en: {
     title: "AjGenX - JSON Viewer & Formatter",
@@ -58,6 +57,20 @@ window.addEventListener('DOMContentLoaded', () => {
   const savedLang = localStorage.getItem('ajgenx-lang') || 'en';
   setLanguage(savedLang);
   languageToggle.value = savedLang;
+
+  const savedTheme = localStorage.getItem('ajgenx-theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark');
+    themeToggle.textContent = '☀️';
+  } else {
+    themeToggle.textContent = '🌙';
+  }
+
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  if (prefersDark && !savedTheme) {
+    document.body.classList.add('dark');
+    themeToggle.textContent = '☀️';
+  }
 });
 
 languageToggle.addEventListener('change', () => {
@@ -69,20 +82,6 @@ themeToggle.addEventListener('click', () => {
   const isDark = document.body.classList.contains('dark');
   themeToggle.textContent = isDark ? '☀️' : '🌙';
   localStorage.setItem('ajgenx-theme', isDark ? 'dark' : 'light');
-});
-
-window.addEventListener('DOMContentLoaded', () => {
-  const savedLang = localStorage.getItem('ajgenx-lang') || 'en';
-  setLanguage(savedLang);
-  languageToggle.value = savedLang;
-
-  const savedTheme = localStorage.getItem('ajgenx-theme');
-  if (savedTheme === 'dark') {
-    document.body.classList.add('dark');
-    themeToggle.textContent = '☀️';
-  } else {
-    themeToggle.textContent = '🌙';
-  }
 });
 
 const templates = {
@@ -137,12 +136,6 @@ downloadBtn.addEventListener('click', () => {
   a.click();
 });
 
-
-const copyBtn = document.createElement('button');
-copyBtn.textContent = 'Copy JSON';
-copyBtn.id = 'copyBtn';
-document.querySelector('.buttons').appendChild(copyBtn);
-
 copyBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(output.textContent)
     .then(() => {
@@ -152,4 +145,42 @@ copyBtn.addEventListener('click', () => {
     .catch(() => {
       copyBtn.textContent = 'Failed!';
     });
+});
+
+document.getElementById("uploadJsonBtn").addEventListener("click", () => {
+  const file = document.getElementById("jsonFileInput").files[0];
+  if (!file) {
+    alert("Please select a JSON file.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    try {
+      const json = JSON.parse(e.target.result);
+      input.value = JSON.stringify(json, null, 2);
+      output.textContent = JSON.stringify(json);
+    } catch (err) {
+      alert("Invalid JSON file.");
+    }
+  };
+  reader.readAsText(file);
+});
+
+document.getElementById("fetchBtn").addEventListener("click", async () => {
+  const url = document.getElementById("apiUrl").value.trim();
+  if (!url) {
+    alert("Please enter a valid URL");
+    return;
+  }
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Status: ${response.status}`);
+    const data = await response.json();
+    input.value = JSON.stringify(data, null, 2);
+    output.textContent = JSON.stringify(data, null, 2);
+  } catch (error) {
+    output.textContent = '⚠️ Error fetching JSON: ' + error.message;
+  }
 });
