@@ -1,13 +1,16 @@
+
 console.log('AjGenX Enhanced Loaded');
 
 const input = document.getElementById('jsonInput');
 const output = document.getElementById('jsonOutput');
 const formatBtn = document.getElementById('formatBtn');
 const downloadBtn = document.getElementById('downloadBtn');
+const tabs = document.querySelectorAll('.tab');
 const themeToggle = document.getElementById('themeToggle');
 const languageToggle = document.getElementById('languageToggle');
 const errorOutput = document.getElementById('errorOutput');
 
+// Language Dictionary
 const translations = {
   en: {
     title: "AjGenX - JSON Viewer & Formatter",
@@ -55,14 +58,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const savedLang = localStorage.getItem('ajgenx-lang') || 'en';
   setLanguage(savedLang);
   languageToggle.value = savedLang;
-
-  const savedTheme = localStorage.getItem('ajgenx-theme');
-  if (savedTheme === 'dark') {
-    document.body.classList.add('dark');
-    themeToggle.textContent = '☀️';
-  } else {
-    themeToggle.textContent = '🌙';
-  }
 });
 
 languageToggle.addEventListener('change', () => {
@@ -74,6 +69,38 @@ themeToggle.addEventListener('click', () => {
   const isDark = document.body.classList.contains('dark');
   themeToggle.textContent = isDark ? '☀️' : '🌙';
   localStorage.setItem('ajgenx-theme', isDark ? 'dark' : 'light');
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const savedLang = localStorage.getItem('ajgenx-lang') || 'en';
+  setLanguage(savedLang);
+  languageToggle.value = savedLang;
+
+  const savedTheme = localStorage.getItem('ajgenx-theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark');
+    themeToggle.textContent = '☀️';
+  } else {
+    themeToggle.textContent = '🌙';
+  }
+});
+
+const templates = {
+  general: `{ "name": "Ajay", "project": "AjGenX" }`,
+  ecommerce: `{ "product": "Shirt", "price": 499, "stock": true }`,
+  healthcare: `{ "patient": "John Doe", "diagnosis": "Flu", "prescription": ["MedA", "MedB"] }`,
+  edtech: `{ "course": "Physics", "duration": "3 months", "enrolled": 120 }`,
+  iot: `{ "device": "Sensor01", "status": "active", "battery": 87 }`,
+  custom: localStorage.getItem('ajgenx-custom') || ''
+};
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const key = tab.dataset.tab;
+    input.value = templates[key] || '';
+  });
 });
 
 formatBtn.addEventListener('click', () => {
@@ -91,6 +118,10 @@ formatBtn.addEventListener('click', () => {
     const viewer = new JSONViewer();
     output.appendChild(viewer.getContainer());
     viewer.showJSON(parsed, -1, 2);
+
+    if (document.querySelector('.tab.active').dataset.tab === 'custom') {
+      localStorage.setItem('ajgenx-custom', input.value);
+    }
   } catch (err) {
     errorOutput.style.display = 'block';
     errorOutput.textContent = '⚠️ Invalid JSON: ' + err.message;
@@ -105,6 +136,7 @@ downloadBtn.addEventListener('click', () => {
   a.download = 'ajgenx.json';
   a.click();
 });
+
 
 const copyBtn = document.createElement('button');
 copyBtn.textContent = 'Copy JSON';
