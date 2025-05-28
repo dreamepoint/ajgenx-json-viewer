@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Head में नीचे ये स्क्रिप्ट जोड़ें -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AjGenX - JSON Formatter</title>
   <link rel="stylesheet" href="style.css">
-    </head>
+  <link rel="stylesheet" href="json-viewer.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="json-viewer.min.js"></script>
+  <script src="script.js" defer></script>
+</head>
 <body>
   <header>
     <h1 id="title">AjGenX</h1>
@@ -30,11 +32,22 @@
       <button class="tab" data-tab="custom" data-i18n="tab.custom">Custom</button>
     </nav>
 
+    <div class="api-fetch">
+      <input type="text" id="apiUrl" placeholder="Enter API URL here..." />
+      <button id="fetchBtn">Fetch JSON</button>
+    </div>
+
+    <div class="upload-section">
+      <input type="file" id="jsonFileInput" accept=".json" />
+      <button id="uploadJsonBtn">Upload JSON</button>
+    </div>
+
     <section class="editor">
       <textarea id="jsonInput" placeholder="Paste your JSON here..." data-i18n-placeholder="input.placeholder"></textarea>
       <div class="buttons">
         <button id="formatBtn" data-i18n="btn.format">Format</button>
         <button id="downloadBtn" data-i18n="btn.download">Download JSON</button>
+        <button id="copyBtn">Copy JSON</button> <!-- ✅ Added directly in HTML -->
       </div>
       <div id="jsonOutputContainer">
         <div id="jsonOutput"></div>
@@ -46,9 +59,5 @@
   <footer>
     <p id="footerText" data-i18n="footer.text">Made by Ajay Singh Rajput & ChatGPT — AjGenX</p>
   </footer>
-
-  <link rel="stylesheet" href="json-viewer.min.css">
-<script src="json-viewer.min.js"></script>
-<script src="script.js"></script>
 </body>
 </html>
