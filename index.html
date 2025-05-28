@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AjGenX - JSON Formatter</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="json-viewer.min.css">
+  <link rel="icon" href="https://jsonplaceholder.typicode.com/favicon.ico" />
+  <meta property="og:title" content="AjGenX - JSON Formatter" />
+  <meta property="og:description" content="Multilingual, industry-ready, community-powered JSON formatter & viewer tool." />
+  <meta property="og:image" content="https://jsonplaceholder.typicode.com/logo.png" />
+</head>
+<body>
+  <header>
+    <h1 id="title">AjGenX</h1>
+    <div class="controls">
+      <select id="languageToggle">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+      <button id="themeToggle" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <nav class="tab-bar">
+      <button class="tab active" data-tab="general" data-i18n="tab.general">General</button>
+      <button class="tab" data-tab="ecommerce" data-i18n="tab.ecommerce">E-Commerce</button>
+      <button class="tab" data-tab="healthcare" data-i18n="tab.healthcare">Healthcare</button>
+      <button class="tab" data-tab="edtech" data-i18n="tab.edtech">EdTech</button>
+      <button class="tab" data-tab="iot" data-i18n="tab.iot">IoT</button>
+      <button class="tab" data-tab="custom" data-i18n="tab.custom">Custom</button>
+    </nav>
+
+    <section class="editor">
+      <textarea id="jsonInput" placeholder="Paste your JSON here..." data-i18n-placeholder="input.placeholder"></textarea>
+      <div class="buttons">
+        <button id="formatBtn" data-i18n="btn.format">Format</button>
+        <button id="downloadBtn" data-i18n="btn.download">Download JSON</button>
+      </div>
+      <div id="jsonOutputContainer">
+        <div id="jsonOutput"></div>
+        <p id="errorOutput" style="color: red; display: none;"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p id="footerText" data-i18n="footer.text">
+      Made by Ajay Singh Rajput & ChatGPT — AjGenX<br>
+      <a href="https://github.com/ajgenx/json-viewer" target="_blank">Contribute on GitHub</a> |
+      <a href="https://forms.gle/community-feedback-link" target="_blank">Give Feedback</a>
+    </p>
+  </footer>
+
+  <script src="json-viewer.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
