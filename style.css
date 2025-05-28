@@ -74,7 +74,7 @@ button {
   border: none;
   border-radius: 5px;
   background-color: #2ecc71;
-  color: white;
+  color: rgb(10, 3, 3);
   cursor: pointer;
 }
 button:hover {
@@ -109,4 +109,58 @@ body.dark button {
 #errorOutput {
   margin-top: 10px;
   font-weight: bold;
+}
+.api-fetch {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.api-fetch input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.api-fetch button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.api-fetch button:hover {
+  background-color: #2980b9;
+  color: white;
+}
+.api-fetch button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+.api-fetch .response {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #ecf0f1;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+#errorMsg {
+  color: red;
+  padding: 5px;
+  font-size: 0.9rem;
+}
+.upload-section {
+  margin: 10px 0;
+}
+
+#jsonFileInput {
+  padding: 6px;
+}
+
+#uploadJsonBtn {
+  padding: 6px 12px;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-left: 8px;
+  border-radius: 4px;
 }
